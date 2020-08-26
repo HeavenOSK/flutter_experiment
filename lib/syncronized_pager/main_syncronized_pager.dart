@@ -9,8 +9,8 @@ const _colors = [
   Colors.yellow,
   Colors.blue,
 ];
-const _itemHeight = 150.0;
 
+const _itemRatio = 100 / 120;
 void main() {
   runApp(MyApp());
 }
@@ -48,12 +48,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final itemHeight = width / (2 * _itemRatio);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ListView.builder(
+      body: GridView.builder(
         controller: controller,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: _itemRatio,
+        ),
         itemBuilder: (context, index) {
           final indexString = index?.toString();
           final color = _colors[index % _colors.length];
@@ -64,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context) => DetailPager(
                     currentIndex: index,
                     onPaging: (index) {
-                      controller.jumpTo(index * _itemHeight);
+                      controller.jumpTo(index ~/ 2 * itemHeight);
                     },
                   ),
                 ),
@@ -72,7 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             child: Container(
               color: color,
-              height: _itemHeight,
               child: Center(
                 child: Text(indexString),
               ),
