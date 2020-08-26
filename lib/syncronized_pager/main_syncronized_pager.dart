@@ -64,10 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder: (context) => DetailPager(
                     currentIndex: index,
                     onPaging: (index) {
-                      final targetIndex = index - 1;
-                      if (index >= 0) {
-                        controller.jumpTo(targetIndex * _itemHeight);
-                      }
+                      controller.jumpTo(index * _itemHeight);
                     },
                   ),
                 ),
