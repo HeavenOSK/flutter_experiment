@@ -11,6 +11,7 @@ dependencies:
   http:
   hooks_riverpod:
   flutter_hooks:
+  gap:
 dev_dependencies:
   flutter_test:
     sdk: flutter
