@@ -19,8 +19,11 @@ abstract class MouseCursorInformation with _$MouseCursorInformation {
 
 @freezed
 abstract class MouseCursorTarget with _$MouseCursorTarget {
-  const factory MouseCursorTarget({
+  factory MouseCursorTarget({
     @required Offset position,
-    @required Size targetSize,
+    @required Size size,
   }) = _MouseCursorTarget;
+
+  @late
+  Offset get center => position + Offset(size.width, size.height) / 2;
 }

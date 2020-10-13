@@ -13,6 +13,16 @@ enum _CursorStateType {
   removeFocus,
 }
 
+Offset _f({
+  @required Offset origin,
+  @required Offset center,
+  @required Offset pos,
+}) {
+  final maxDiff = origin - center;
+  final diff = pos - center;
+  return diff * 0.4;
+}
+
 extension _CursorStateTypeExtension on _CursorStateType {
   bool get hasFocus =>
       this == _CursorStateType.startFocus || this == _CursorStateType.focus;
@@ -36,6 +46,7 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
   AnimationController _controller;
   Animation<Offset> _position;
   Animation<Size> _size;
+  Offset _currentPosition;
 
   _CursorStateType _stateType = _CursorStateType.noFocus;
 
@@ -43,7 +54,8 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 160),
+      reverseDuration: Duration(milliseconds: 100),
     );
     super.initState();
   }
@@ -53,11 +65,7 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
       return;
     }
     _stateType = _CursorStateType.startFocus;
-    _initializeAnimation(
-      info,
-      _controller.value,
-      1,
-    );
+    _initializeAnimation(info);
     _forward();
   }
 
@@ -66,29 +74,30 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
       return;
     }
     _stateType = _CursorStateType.removeFocus;
-    _initializeAnimation(
+    _initializeAnimationForReverse(
       info,
-      0,
-      _controller.value,
     );
     _reverse();
   }
 
   void _initializeAnimation(
     MouseCursorInformation info,
-    double begin,
-    double end,
   ) {
     final positionTween = Tween(
       begin: info.realPosition,
-      end: info.target.position,
+      end: info.target.position +
+          _f(
+            origin: info.target.position,
+            pos: info.realPosition,
+            center: info.target.center,
+          ),
     );
     _position = _controller
         .drive(
           CurveTween(
               curve: Interval(
-            begin,
-            end,
+            _controller.value,
+            1,
             curve: Curves.fastOutSlowIn,
           )),
         )
@@ -98,14 +107,48 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
         PositionedMouseCursor.radius,
         PositionedMouseCursor.radius,
       ),
-      end: info.target.targetSize,
+      end: info.target.size,
     );
     _size = _controller
         .drive(
           CurveTween(
               curve: Interval(
-            begin,
-            end,
+            _controller.value,
+            1,
+            curve: Curves.fastOutSlowIn,
+          )),
+        )
+        .drive(sizeTween);
+  }
+
+  void _initializeAnimationForReverse(MouseCursorInformation info) {
+    final positionTween = Tween(
+      begin: info.realPosition,
+      end: _currentPosition,
+    );
+    _position = _controller
+        .drive(
+          CurveTween(
+              curve: Interval(
+            0,
+            _controller.value,
+            curve: Curves.fastOutSlowIn,
+          )),
+        )
+        .drive(positionTween);
+    final sizeTween = Tween(
+      begin: Size(
+        PositionedMouseCursor.radius,
+        PositionedMouseCursor.radius,
+      ),
+      end: info.target.size,
+    );
+    _size = _controller
+        .drive(
+          CurveTween(
+              curve: Interval(
+            0,
+            _controller.value,
             curve: Curves.fastOutSlowIn,
           )),
         )
@@ -144,10 +187,15 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
           final isAnimating = _stateType.animating;
           final hasFocus = _stateType.hasFocus;
 
-          final pos = isAnimating
+          _currentPosition = isAnimating
               ? _position.value
               : (hasFocus
-                  ? info.target.position
+                  ? info.target.position +
+                      _f(
+                        origin: info.target.position,
+                        pos: info.realPosition,
+                        center: info.target.center,
+                      )
                   : info.realPosition -
                       Offset(
                         PositionedMouseCursor.radius / 2,
@@ -156,15 +204,15 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
           final size = isAnimating
               ? _size.value
               : (hasFocus
-                  ? info.target.targetSize
+                  ? info.target.size
                   : Size(
                       PositionedMouseCursor.radius,
                       PositionedMouseCursor.radius,
                     ));
 
           return Positioned(
-            top: pos.dy,
-            left: pos.dx,
+            top: _currentPosition.dy,
+            left: _currentPosition.dx,
             child: IgnorePointer(
               child: Container(
                 height: size.height,

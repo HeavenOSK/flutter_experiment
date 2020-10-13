@@ -27,7 +27,7 @@ class VirtualMouseCursorController
     value = value.copyWith(
       target: MouseCursorTarget(
         position: targetPosition,
-        targetSize: targetSize,
+        size: targetSize,
       ),
       hasFocus: true,
     );

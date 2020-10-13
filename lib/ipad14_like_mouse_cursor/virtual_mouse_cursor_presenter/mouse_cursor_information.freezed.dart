@@ -221,11 +221,10 @@ class _$MouseCursorTargetTearOff {
   const _$MouseCursorTargetTearOff();
 
 // ignore: unused_element
-  _MouseCursorTarget call(
-      {@required Offset position, @required Size targetSize}) {
+  _MouseCursorTarget call({@required Offset position, @required Size size}) {
     return _MouseCursorTarget(
       position: position,
-      targetSize: targetSize,
+      size: size,
     );
   }
 }
@@ -235,7 +234,7 @@ const $MouseCursorTarget = _$MouseCursorTargetTearOff();
 
 mixin _$MouseCursorTarget {
   Offset get position;
-  Size get targetSize;
+  Size get size;
 
   $MouseCursorTargetCopyWith<MouseCursorTarget> get copyWith;
 }
@@ -244,7 +243,7 @@ abstract class $MouseCursorTargetCopyWith<$Res> {
   factory $MouseCursorTargetCopyWith(
           MouseCursorTarget value, $Res Function(MouseCursorTarget) then) =
       _$MouseCursorTargetCopyWithImpl<$Res>;
-  $Res call({Offset position, Size targetSize});
+  $Res call({Offset position, Size size});
 }
 
 class _$MouseCursorTargetCopyWithImpl<$Res>
@@ -258,12 +257,11 @@ class _$MouseCursorTargetCopyWithImpl<$Res>
   @override
   $Res call({
     Object position = freezed,
-    Object targetSize = freezed,
+    Object size = freezed,
   }) {
     return _then(_value.copyWith(
       position: position == freezed ? _value.position : position as Offset,
-      targetSize:
-          targetSize == freezed ? _value.targetSize : targetSize as Size,
+      size: size == freezed ? _value.size : size as Size,
     ));
   }
 }
@@ -274,7 +272,7 @@ abstract class _$MouseCursorTargetCopyWith<$Res>
           _MouseCursorTarget value, $Res Function(_MouseCursorTarget) then) =
       __$MouseCursorTargetCopyWithImpl<$Res>;
   @override
-  $Res call({Offset position, Size targetSize});
+  $Res call({Offset position, Size size});
 }
 
 class __$MouseCursorTargetCopyWithImpl<$Res>
@@ -290,12 +288,11 @@ class __$MouseCursorTargetCopyWithImpl<$Res>
   @override
   $Res call({
     Object position = freezed,
-    Object targetSize = freezed,
+    Object size = freezed,
   }) {
     return _then(_MouseCursorTarget(
       position: position == freezed ? _value.position : position as Offset,
-      targetSize:
-          targetSize == freezed ? _value.targetSize : targetSize as Size,
+      size: size == freezed ? _value.size : size as Size,
     ));
   }
 }
@@ -303,19 +300,30 @@ class __$MouseCursorTargetCopyWithImpl<$Res>
 class _$_MouseCursorTarget
     with DiagnosticableTreeMixin
     implements _MouseCursorTarget {
-  const _$_MouseCursorTarget(
-      {@required this.position, @required this.targetSize})
+  _$_MouseCursorTarget({@required this.position, @required this.size})
       : assert(position != null),
-        assert(targetSize != null);
+        assert(size != null);
 
   @override
   final Offset position;
   @override
-  final Size targetSize;
+  final Size size;
+
+  bool _didcenter = false;
+  Offset _center;
+
+  @override
+  Offset get center {
+    if (_didcenter == false) {
+      _didcenter = true;
+      _center = position + Offset(size.width, size.height) / 2;
+    }
+    return _center;
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MouseCursorTarget(position: $position, targetSize: $targetSize)';
+    return 'MouseCursorTarget(position: $position, size: $size, center: $center)';
   }
 
   @override
@@ -324,7 +332,8 @@ class _$_MouseCursorTarget
     properties
       ..add(DiagnosticsProperty('type', 'MouseCursorTarget'))
       ..add(DiagnosticsProperty('position', position))
-      ..add(DiagnosticsProperty('targetSize', targetSize));
+      ..add(DiagnosticsProperty('size', size))
+      ..add(DiagnosticsProperty('center', center));
   }
 
   @override
@@ -334,16 +343,15 @@ class _$_MouseCursorTarget
             (identical(other.position, position) ||
                 const DeepCollectionEquality()
                     .equals(other.position, position)) &&
-            (identical(other.targetSize, targetSize) ||
-                const DeepCollectionEquality()
-                    .equals(other.targetSize, targetSize)));
+            (identical(other.size, size) ||
+                const DeepCollectionEquality().equals(other.size, size)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(position) ^
-      const DeepCollectionEquality().hash(targetSize);
+      const DeepCollectionEquality().hash(size);
 
   @override
   _$MouseCursorTargetCopyWith<_MouseCursorTarget> get copyWith =>
@@ -351,14 +359,13 @@ class _$_MouseCursorTarget
 }
 
 abstract class _MouseCursorTarget implements MouseCursorTarget {
-  const factory _MouseCursorTarget(
-      {@required Offset position,
-      @required Size targetSize}) = _$_MouseCursorTarget;
+  factory _MouseCursorTarget({@required Offset position, @required Size size}) =
+      _$_MouseCursorTarget;
 
   @override
   Offset get position;
   @override
-  Size get targetSize;
+  Size get size;
   @override
   _$MouseCursorTargetCopyWith<_MouseCursorTarget> get copyWith;
 }
