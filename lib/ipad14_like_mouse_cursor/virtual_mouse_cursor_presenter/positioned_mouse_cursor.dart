@@ -53,7 +53,11 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
       return;
     }
     _stateType = _CursorStateType.startFocus;
-    _initializeAnimation(info);
+    _initializeAnimation(
+      info,
+      _controller.value,
+      1,
+    );
     _forward();
   }
 
@@ -62,26 +66,50 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
       return;
     }
     _stateType = _CursorStateType.removeFocus;
-    _initializeAnimation(info);
+    _initializeAnimation(
+      info,
+      0,
+      _controller.value,
+    );
     _reverse();
   }
 
-  void _initializeAnimation(MouseCursorInformation info) {
-    _position = _controller.drive(
-      Tween(
-        begin: info.realPosition,
-        end: info.target.position,
-      ),
+  void _initializeAnimation(
+    MouseCursorInformation info,
+    double begin,
+    double end,
+  ) {
+    final positionTween = Tween(
+      begin: info.realPosition,
+      end: info.target.position,
     );
-    _size = _controller.drive(
-      Tween(
-        begin: Size(
-          PositionedMouseCursor.radius,
-          PositionedMouseCursor.radius,
-        ),
-        end: info.target.targetSize,
+    _position = _controller
+        .drive(
+          CurveTween(
+              curve: Interval(
+            begin,
+            end,
+            curve: Curves.fastOutSlowIn,
+          )),
+        )
+        .drive(positionTween);
+    final sizeTween = Tween(
+      begin: Size(
+        PositionedMouseCursor.radius,
+        PositionedMouseCursor.radius,
       ),
+      end: info.target.targetSize,
     );
+    _size = _controller
+        .drive(
+          CurveTween(
+              curve: Interval(
+            begin,
+            end,
+            curve: Curves.fastOutSlowIn,
+          )),
+        )
+        .drive(sizeTween);
   }
 
   void _forward() {
