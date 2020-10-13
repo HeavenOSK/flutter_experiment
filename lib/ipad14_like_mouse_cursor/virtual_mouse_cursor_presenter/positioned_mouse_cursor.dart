@@ -38,12 +38,6 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
   Animation<Size> _size;
 
   _CursorStateType _stateType = _CursorStateType.noFocus;
-  set stateType(value) {
-    if (_stateType != value) {
-      _stateType = value;
-      print('_stateType:$_stateType');
-    }
-  }
 
   @override
   void initState() {
@@ -58,7 +52,7 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
     if (_stateType.hasFocus) {
       return;
     }
-    stateType = _CursorStateType.startFocus;
+    _stateType = _CursorStateType.startFocus;
     _initializeAnimation(info);
     _forward();
   }
@@ -67,21 +61,9 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
     if (!_stateType.hasFocus) {
       return;
     }
-    stateType = _CursorStateType.removeFocus;
+    _stateType = _CursorStateType.removeFocus;
     _initializeAnimation(info);
     _reverse();
-  }
-
-  void _forward() {
-    _controller.forward().then((_) {
-      stateType = _CursorStateType.focus;
-    });
-  }
-
-  void _reverse() {
-    _controller.reverse().then((_) {
-      stateType = _CursorStateType.noFocus;
-    });
   }
 
   void _initializeAnimation(MouseCursorInformation info) {
@@ -100,6 +82,18 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
         end: info.target.targetSize,
       ),
     );
+  }
+
+  void _forward() {
+    _controller.forward().then((_) {
+      _stateType = _CursorStateType.focus;
+    });
+  }
+
+  void _reverse() {
+    _controller.reverse().then((_) {
+      _stateType = _CursorStateType.noFocus;
+    });
   }
 
   @override
@@ -128,8 +122,8 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
                   ? info.target.position
                   : info.realPosition -
                       Offset(
-                        PositionedMouseCursor.radius,
-                        PositionedMouseCursor.radius,
+                        PositionedMouseCursor.radius / 2,
+                        PositionedMouseCursor.radius / 2,
                       ));
           final size = isAnimating
               ? _size.value
