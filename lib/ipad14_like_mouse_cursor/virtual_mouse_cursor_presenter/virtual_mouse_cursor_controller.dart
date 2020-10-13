@@ -14,6 +14,9 @@ class VirtualMouseCursorController
       : super(
           MouseCursorInformation.notShowing(),
         );
+  void hide() {
+    value = MouseCursorInformation.notShowing();
+  }
 
   void updateRealPosition(Offset offset) {
     value = value.when(
@@ -23,6 +26,33 @@ class VirtualMouseCursorController
           realPosition: offset,
           target: target,
         );
+      },
+    );
+  }
+
+  void enter(
+    Offset targetPosition,
+    Size targetSize,
+  ) {
+    value = value.when(
+      notShowing: () => MouseCursorInformation.notShowing(),
+      showing: (p, _) {
+        return MouseCursorInformation.showing(
+          realPosition: p,
+          target: MouseCursorTarget(
+            position: targetPosition,
+            targetSize: targetSize,
+          ),
+        );
+      },
+    );
+  }
+
+  void exit() {
+    value = value.when(
+      notShowing: () => MouseCursorInformation.notShowing(),
+      showing: (p, _) {
+        return MouseCursorInformation.showing(realPosition: p);
       },
     );
   }
