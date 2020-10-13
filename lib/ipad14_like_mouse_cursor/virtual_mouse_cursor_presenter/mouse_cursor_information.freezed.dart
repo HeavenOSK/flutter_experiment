@@ -13,16 +13,14 @@ class _$MouseCursorInformationTearOff {
   const _$MouseCursorInformationTearOff();
 
 // ignore: unused_element
-  _NotShowing notShowing() {
-    return const _NotShowing();
-  }
-
-// ignore: unused_element
-  _Showing showing(
-      {@required Offset realPosition, @nullable MouseCursorTarget target}) {
-    return _Showing(
+  _MouseCursorInformation call(
+      {@nullable Offset realPosition,
+      @nullable MouseCursorTarget target,
+      bool hasFocus = false}) {
+    return _MouseCursorInformation(
       realPosition: realPosition,
       target: target,
+      hasFocus: hasFocus,
     );
   }
 }
@@ -31,35 +29,25 @@ class _$MouseCursorInformationTearOff {
 const $MouseCursorInformation = _$MouseCursorInformationTearOff();
 
 mixin _$MouseCursorInformation {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result notShowing(),
-    @required
-        Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result notShowing(),
-    Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result notShowing(_NotShowing value),
-    @required Result showing(_Showing value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result notShowing(_NotShowing value),
-    Result showing(_Showing value),
-    @required Result orElse(),
-  });
+  @nullable
+  Offset get realPosition;
+  @nullable
+  MouseCursorTarget get target;
+  bool get hasFocus;
+
+  $MouseCursorInformationCopyWith<MouseCursorInformation> get copyWith;
 }
 
 abstract class $MouseCursorInformationCopyWith<$Res> {
   factory $MouseCursorInformationCopyWith(MouseCursorInformation value,
           $Res Function(MouseCursorInformation) then) =
       _$MouseCursorInformationCopyWithImpl<$Res>;
+  $Res call(
+      {@nullable Offset realPosition,
+      @nullable MouseCursorTarget target,
+      bool hasFocus});
+
+  $MouseCursorTargetCopyWith<$Res> get target;
 }
 
 class _$MouseCursorInformationCopyWithImpl<$Res>
@@ -69,131 +57,19 @@ class _$MouseCursorInformationCopyWithImpl<$Res>
   final MouseCursorInformation _value;
   // ignore: unused_field
   final $Res Function(MouseCursorInformation) _then;
-}
-
-abstract class _$NotShowingCopyWith<$Res> {
-  factory _$NotShowingCopyWith(
-          _NotShowing value, $Res Function(_NotShowing) then) =
-      __$NotShowingCopyWithImpl<$Res>;
-}
-
-class __$NotShowingCopyWithImpl<$Res>
-    extends _$MouseCursorInformationCopyWithImpl<$Res>
-    implements _$NotShowingCopyWith<$Res> {
-  __$NotShowingCopyWithImpl(
-      _NotShowing _value, $Res Function(_NotShowing) _then)
-      : super(_value, (v) => _then(v as _NotShowing));
-
-  @override
-  _NotShowing get _value => super._value as _NotShowing;
-}
-
-class _$_NotShowing with DiagnosticableTreeMixin implements _NotShowing {
-  const _$_NotShowing();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MouseCursorInformation.notShowing()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MouseCursorInformation.notShowing'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is _NotShowing);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result notShowing(),
-    @required
-        Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-  }) {
-    assert(notShowing != null);
-    assert(showing != null);
-    return notShowing();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result notShowing(),
-    Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (notShowing != null) {
-      return notShowing();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result notShowing(_NotShowing value),
-    @required Result showing(_Showing value),
-  }) {
-    assert(notShowing != null);
-    assert(showing != null);
-    return notShowing(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result notShowing(_NotShowing value),
-    Result showing(_Showing value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (notShowing != null) {
-      return notShowing(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _NotShowing implements MouseCursorInformation {
-  const factory _NotShowing() = _$_NotShowing;
-}
-
-abstract class _$ShowingCopyWith<$Res> {
-  factory _$ShowingCopyWith(_Showing value, $Res Function(_Showing) then) =
-      __$ShowingCopyWithImpl<$Res>;
-  $Res call({Offset realPosition, @nullable MouseCursorTarget target});
-
-  $MouseCursorTargetCopyWith<$Res> get target;
-}
-
-class __$ShowingCopyWithImpl<$Res>
-    extends _$MouseCursorInformationCopyWithImpl<$Res>
-    implements _$ShowingCopyWith<$Res> {
-  __$ShowingCopyWithImpl(_Showing _value, $Res Function(_Showing) _then)
-      : super(_value, (v) => _then(v as _Showing));
-
-  @override
-  _Showing get _value => super._value as _Showing;
 
   @override
   $Res call({
     Object realPosition = freezed,
     Object target = freezed,
+    Object hasFocus = freezed,
   }) {
-    return _then(_Showing(
+    return _then(_value.copyWith(
       realPosition: realPosition == freezed
           ? _value.realPosition
           : realPosition as Offset,
       target: target == freezed ? _value.target : target as MouseCursorTarget,
+      hasFocus: hasFocus == freezed ? _value.hasFocus : hasFocus as bool,
     ));
   }
 
@@ -208,112 +84,137 @@ class __$ShowingCopyWithImpl<$Res>
   }
 }
 
-class _$_Showing with DiagnosticableTreeMixin implements _Showing {
-  const _$_Showing({@required this.realPosition, @nullable this.target})
-      : assert(realPosition != null);
+abstract class _$MouseCursorInformationCopyWith<$Res>
+    implements $MouseCursorInformationCopyWith<$Res> {
+  factory _$MouseCursorInformationCopyWith(_MouseCursorInformation value,
+          $Res Function(_MouseCursorInformation) then) =
+      __$MouseCursorInformationCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {@nullable Offset realPosition,
+      @nullable MouseCursorTarget target,
+      bool hasFocus});
 
   @override
+  $MouseCursorTargetCopyWith<$Res> get target;
+}
+
+class __$MouseCursorInformationCopyWithImpl<$Res>
+    extends _$MouseCursorInformationCopyWithImpl<$Res>
+    implements _$MouseCursorInformationCopyWith<$Res> {
+  __$MouseCursorInformationCopyWithImpl(_MouseCursorInformation _value,
+      $Res Function(_MouseCursorInformation) _then)
+      : super(_value, (v) => _then(v as _MouseCursorInformation));
+
+  @override
+  _MouseCursorInformation get _value => super._value as _MouseCursorInformation;
+
+  @override
+  $Res call({
+    Object realPosition = freezed,
+    Object target = freezed,
+    Object hasFocus = freezed,
+  }) {
+    return _then(_MouseCursorInformation(
+      realPosition: realPosition == freezed
+          ? _value.realPosition
+          : realPosition as Offset,
+      target: target == freezed ? _value.target : target as MouseCursorTarget,
+      hasFocus: hasFocus == freezed ? _value.hasFocus : hasFocus as bool,
+    ));
+  }
+}
+
+class _$_MouseCursorInformation
+    with DiagnosticableTreeMixin
+    implements _MouseCursorInformation {
+  _$_MouseCursorInformation(
+      {@nullable this.realPosition,
+      @nullable this.target,
+      this.hasFocus = false})
+      : assert(hasFocus != null);
+
+  @override
+  @nullable
   final Offset realPosition;
   @override
   @nullable
   final MouseCursorTarget target;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool hasFocus;
+
+  bool _didshowing = false;
+  bool _showing;
+
+  @override
+  bool get showing {
+    if (_didshowing == false) {
+      _didshowing = true;
+      _showing = this.realPosition != null;
+    }
+    return _showing;
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MouseCursorInformation.showing(realPosition: $realPosition, target: $target)';
+    return 'MouseCursorInformation(realPosition: $realPosition, target: $target, hasFocus: $hasFocus, showing: $showing)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'MouseCursorInformation.showing'))
+      ..add(DiagnosticsProperty('type', 'MouseCursorInformation'))
       ..add(DiagnosticsProperty('realPosition', realPosition))
-      ..add(DiagnosticsProperty('target', target));
+      ..add(DiagnosticsProperty('target', target))
+      ..add(DiagnosticsProperty('hasFocus', hasFocus))
+      ..add(DiagnosticsProperty('showing', showing));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Showing &&
+        (other is _MouseCursorInformation &&
             (identical(other.realPosition, realPosition) ||
                 const DeepCollectionEquality()
                     .equals(other.realPosition, realPosition)) &&
             (identical(other.target, target) ||
-                const DeepCollectionEquality().equals(other.target, target)));
+                const DeepCollectionEquality().equals(other.target, target)) &&
+            (identical(other.hasFocus, hasFocus) ||
+                const DeepCollectionEquality()
+                    .equals(other.hasFocus, hasFocus)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(realPosition) ^
-      const DeepCollectionEquality().hash(target);
+      const DeepCollectionEquality().hash(target) ^
+      const DeepCollectionEquality().hash(hasFocus);
 
   @override
-  _$ShowingCopyWith<_Showing> get copyWith =>
-      __$ShowingCopyWithImpl<_Showing>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result notShowing(),
-    @required
-        Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-  }) {
-    assert(notShowing != null);
-    assert(showing != null);
-    return showing(realPosition, target);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result notShowing(),
-    Result showing(Offset realPosition, @nullable MouseCursorTarget target),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (showing != null) {
-      return showing(realPosition, target);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result notShowing(_NotShowing value),
-    @required Result showing(_Showing value),
-  }) {
-    assert(notShowing != null);
-    assert(showing != null);
-    return showing(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result notShowing(_NotShowing value),
-    Result showing(_Showing value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (showing != null) {
-      return showing(this);
-    }
-    return orElse();
-  }
+  _$MouseCursorInformationCopyWith<_MouseCursorInformation> get copyWith =>
+      __$MouseCursorInformationCopyWithImpl<_MouseCursorInformation>(
+          this, _$identity);
 }
 
-abstract class _Showing implements MouseCursorInformation {
-  const factory _Showing(
-      {@required Offset realPosition,
-      @nullable MouseCursorTarget target}) = _$_Showing;
+abstract class _MouseCursorInformation implements MouseCursorInformation {
+  factory _MouseCursorInformation(
+      {@nullable Offset realPosition,
+      @nullable MouseCursorTarget target,
+      bool hasFocus}) = _$_MouseCursorInformation;
 
+  @override
+  @nullable
   Offset get realPosition;
+  @override
   @nullable
   MouseCursorTarget get target;
-  _$ShowingCopyWith<_Showing> get copyWith;
+  @override
+  bool get hasFocus;
+  @override
+  _$MouseCursorInformationCopyWith<_MouseCursorInformation> get copyWith;
 }
 
 class _$MouseCursorTargetTearOff {

@@ -10,50 +10,30 @@ final virtualMouseCursorControllerProvider = ChangeNotifierProvider.autoDispose(
 
 class VirtualMouseCursorController
     extends ValueNotifier<MouseCursorInformation> {
-  VirtualMouseCursorController()
-      : super(
-          MouseCursorInformation.notShowing(),
-        );
+  VirtualMouseCursorController() : super(MouseCursorInformation());
+
   void hide() {
-    value = MouseCursorInformation.notShowing();
+    value = MouseCursorInformation();
   }
 
   void updateRealPosition(Offset offset) {
-    value = value.when(
-      notShowing: () => MouseCursorInformation.showing(realPosition: offset),
-      showing: (_, target) {
-        return MouseCursorInformation.showing(
-          realPosition: offset,
-          target: target,
-        );
-      },
-    );
+    value = value.copyWith(realPosition: offset);
   }
 
   void enter(
     Offset targetPosition,
     Size targetSize,
   ) {
-    value = value.when(
-      notShowing: () => MouseCursorInformation.notShowing(),
-      showing: (p, _) {
-        return MouseCursorInformation.showing(
-          realPosition: p,
-          target: MouseCursorTarget(
-            position: targetPosition,
-            targetSize: targetSize,
-          ),
-        );
-      },
+    value = value.copyWith(
+      target: MouseCursorTarget(
+        position: targetPosition,
+        targetSize: targetSize,
+      ),
+      hasFocus: true,
     );
   }
 
   void exit() {
-    value = value.when(
-      notShowing: () => MouseCursorInformation.notShowing(),
-      showing: (p, _) {
-        return MouseCursorInformation.showing(realPosition: p);
-      },
-    );
+    value = value.copyWith(hasFocus: false);
   }
 }
