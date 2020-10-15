@@ -1,0 +1,23 @@
+# build.yaml
+targets:
+  $default:
+    builders:
+      functional_widget:
+        options:
+          # Default values:
+          debugFillProperties: false
+          widgetType: stateless # or 'hoo
+        generate_for:
+          include:
+            - lib/ipad14_like_mouse_cursor_v2/**
+      freezed:
+        generate_for:
+          include:
+            - lib/ipad14_like_mouse_cursor_v2/**
+      json_serializable:
+        generate_for:
+          include:
+            - lib/ipad14_like_mouse_cursor_v2/**
+        options:
+          any_map: true
+          explicit_to_json: true

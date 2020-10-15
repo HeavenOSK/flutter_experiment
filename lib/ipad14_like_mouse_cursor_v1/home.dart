@@ -47,19 +47,14 @@ class _PlayGroundState extends State<PlayGround>
     return Stack(
       children: [
         Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MouseModifierRegion(
-                onEnter: (pos, size) {
-                  controller.enter(pos, size);
-                },
-                onExit: () {
-                  controller.exit();
-                },
-                child: _Target(),
-              ),
-            ],
+          child: MouseModifierRegion(
+            onEnter: (pos, size) {
+              controller.enter(pos, size);
+            },
+            onExit: () {
+              controller.exit();
+            },
+            child: _Target(),
           ),
         ),
       ],

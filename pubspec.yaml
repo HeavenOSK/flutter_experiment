@@ -15,11 +15,13 @@ dependencies:
   gap:
   freezed_annotation:
   rxdart:
+  functional_widget_annotation:
 dev_dependencies:
   flutter_test:
     sdk: flutter
   pedantic_mono: any
   build_runner: any
   freezed: any
+  functional_widget: any
 flutter:
   uses-material-design: true

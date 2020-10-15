@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_experiment/ipad14_like_mouse_cursor/virtual_mouse_cursor_presenter/mouse_cursor_information.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'mouse_cursor_information.dart';
 import 'virtual_mouse_cursor_controller.dart';
 
 enum _CursorStateType {
@@ -132,7 +132,7 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
               curve: Interval(
             0,
             _controller.value,
-            curve: Curves.fastOutSlowIn,
+            curve: Curves.easeOutQuad,
           )),
         )
         .drive(positionTween);
@@ -149,7 +149,7 @@ class _PositionedMouseCursorState extends State<PositionedMouseCursor>
               curve: Interval(
             0,
             _controller.value,
-            curve: Curves.fastOutSlowIn,
+            curve: Curves.easeOutQuad,
           )),
         )
         .drive(sizeTween);

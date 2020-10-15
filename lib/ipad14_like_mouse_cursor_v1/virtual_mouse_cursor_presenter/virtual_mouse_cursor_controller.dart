@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_experiment/ipad14_like_mouse_cursor/virtual_mouse_cursor_presenter/mouse_cursor_information.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'mouse_cursor_information.dart';
 
 final virtualMouseCursorControllerProvider = ChangeNotifierProvider.autoDispose(
   (_) => VirtualMouseCursorController(),
