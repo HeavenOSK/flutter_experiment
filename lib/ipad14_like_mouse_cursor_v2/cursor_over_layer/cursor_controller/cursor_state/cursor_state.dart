@@ -12,5 +12,5 @@ abstract class CursorState with _$CursorState {
   }) = _CursorState;
 
   @late
-  bool get isHidden => realPosition == null;
+  bool get isHidden => virtualPosition == null;
 }

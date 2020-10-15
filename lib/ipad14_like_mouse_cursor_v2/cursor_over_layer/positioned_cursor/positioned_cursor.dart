@@ -12,14 +12,14 @@ part 'positioned_cursor.g.dart';
 Widget positionedCursor() {
   final isHidden =
       useProvider(cursorControllerProvider.state.select((s) => s.isHidden));
-  final pos =
-      useProvider(cursorControllerProvider.state.select((s) => s.realPosition));
+  final pos = useProvider(
+      cursorControllerProvider.state.select((s) => s.virtualPosition));
   if (isHidden) {
     return const SizedBox.shrink();
   } else {
     return Positioned(
-      top: pos.dy,
-      left: pos.dx,
+      top: pos.dy - VirtualCursor.radius / 2,
+      left: pos.dx - VirtualCursor.radius / 2,
       child: VirtualCursor(),
     );
   }

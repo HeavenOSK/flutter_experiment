@@ -115,7 +115,7 @@ class _$_CursorState implements _CursorState {
   bool get isHidden {
     if (_didisHidden == false) {
       _didisHidden = true;
-      _isHidden = realPosition == null;
+      _isHidden = virtualPosition == null;
     }
     return _isHidden;
   }
