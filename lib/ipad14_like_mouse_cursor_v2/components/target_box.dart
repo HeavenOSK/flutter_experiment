@@ -8,7 +8,6 @@ part 'target_box.g.dart';
 Widget targetBox() {
   final context = useContext();
   return Container(
-    margin: EdgeInsets.all(12),
     decoration: BoxDecoration(
       border: Border.all(
         width: 2,

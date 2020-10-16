@@ -12,14 +12,23 @@ abstract class CursorState with _$CursorState {
     @nullable Target target,
   }) = _CursorState;
 
+  factory CursorState.none() => CursorState();
+
   @late
   bool get isHidden => virtualPosition == null;
+
+  @late
+  bool get hasTarget => target != null;
 }
 
 @freezed
 abstract class Target with _$Target {
-  const factory Target({
+  factory Target({
     @required Offset position,
     @required Size size,
   }) = _Target;
+
+  @late
+  Offset get centerPosition =>
+      position + Offset(size.width / 2, size.height / 2);
 }

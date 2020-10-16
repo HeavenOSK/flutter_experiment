@@ -18,7 +18,9 @@ Widget cursorOverLayer({
     onHover: (event) {
       controller.updateRealPosition(event.position);
     },
-    onExit: (_) {},
+    onExit: (_) {
+      controller.exitFromScreen();
+    },
     child: Stack(
       children: [
         child,

@@ -156,9 +156,21 @@ class _$_CursorState implements _CursorState {
     return _isHidden;
   }
 
+  bool _didhasTarget = false;
+  bool _hasTarget;
+
+  @override
+  bool get hasTarget {
+    if (_didhasTarget == false) {
+      _didhasTarget = true;
+      _hasTarget = target != null;
+    }
+    return _hasTarget;
+  }
+
   @override
   String toString() {
-    return 'CursorState(realPosition: $realPosition, virtualPosition: $virtualPosition, target: $target, isHidden: $isHidden)';
+    return 'CursorState(realPosition: $realPosition, virtualPosition: $virtualPosition, target: $target, isHidden: $isHidden, hasTarget: $hasTarget)';
   }
 
   @override
@@ -281,7 +293,7 @@ class __$TargetCopyWithImpl<$Res> extends _$TargetCopyWithImpl<$Res>
 }
 
 class _$_Target implements _Target {
-  const _$_Target({@required this.position, @required this.size})
+  _$_Target({@required this.position, @required this.size})
       : assert(position != null),
         assert(size != null);
 
@@ -290,9 +302,21 @@ class _$_Target implements _Target {
   @override
   final Size size;
 
+  bool _didcenterPosition = false;
+  Offset _centerPosition;
+
+  @override
+  Offset get centerPosition {
+    if (_didcenterPosition == false) {
+      _didcenterPosition = true;
+      _centerPosition = position + Offset(size.width / 2, size.height / 2);
+    }
+    return _centerPosition;
+  }
+
   @override
   String toString() {
-    return 'Target(position: $position, size: $size)';
+    return 'Target(position: $position, size: $size, centerPosition: $centerPosition)';
   }
 
   @override
@@ -318,8 +342,7 @@ class _$_Target implements _Target {
 }
 
 abstract class _Target implements Target {
-  const factory _Target({@required Offset position, @required Size size}) =
-      _$_Target;
+  factory _Target({@required Offset position, @required Size size}) = _$_Target;
 
   @override
   Offset get position;
