@@ -24,7 +24,7 @@ class _CursorUpdateLayerState extends State<CursorUpdateLayer>
     _loopAnimationController = LoopAnimationController(this)
       ..addListener(
         () {
-          cursorController.updateVirtualPosition();
+          cursorController.updateFrame();
         },
       );
     super.initState();

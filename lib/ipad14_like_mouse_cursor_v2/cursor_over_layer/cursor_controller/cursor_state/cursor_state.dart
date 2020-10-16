@@ -9,8 +9,17 @@ abstract class CursorState with _$CursorState {
   factory CursorState({
     @nullable Offset realPosition,
     @nullable Offset virtualPosition,
+    @nullable Target target,
   }) = _CursorState;
 
   @late
   bool get isHidden => virtualPosition == null;
+}
+
+@freezed
+abstract class Target with _$Target {
+  const factory Target({
+    @required Offset position,
+    @required Size size,
+  }) = _Target;
 }

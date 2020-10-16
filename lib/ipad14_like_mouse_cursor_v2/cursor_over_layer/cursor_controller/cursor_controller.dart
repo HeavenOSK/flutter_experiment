@@ -11,9 +11,8 @@ final cursorControllerProvider =
 class CursorController extends StateNotifier<CursorState> {
   CursorController() : super(CursorState());
 
-  void updateVirtualPosition() {
-    print('called:updateVirtualPosition');
-    springAction();
+  void updateFrame() {
+    _updateVirtualPosition();
   }
 
   void updateRealPosition(Offset pos) {
@@ -24,7 +23,7 @@ class CursorController extends StateNotifier<CursorState> {
     state = CursorState();
   }
 
-  void springAction() {
+  void _updateVirtualPosition() {
     double spring = 0.2;
     double easing = 0.9;
 
