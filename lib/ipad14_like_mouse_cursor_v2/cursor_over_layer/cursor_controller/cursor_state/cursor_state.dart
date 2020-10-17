@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter_experiment/ipad14_like_mouse_cursor_v2/components/components.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'cursor_state.freezed.dart';
@@ -9,16 +10,13 @@ abstract class CursorState with _$CursorState {
   factory CursorState({
     @nullable Offset realPosition,
     @nullable Offset virtualPosition,
+    @required double cursorWeight,
     @nullable Target target,
+    @Default(false) bool hasFocus,
   }) = _CursorState;
-
-  factory CursorState.none() => CursorState();
 
   @late
   bool get isHidden => virtualPosition == null;
-
-  @late
-  bool get hasTarget => target != null;
 }
 
 @freezed

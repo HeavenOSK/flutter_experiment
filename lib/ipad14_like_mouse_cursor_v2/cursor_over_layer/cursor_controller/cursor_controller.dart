@@ -13,10 +13,14 @@ final cursorControllerProvider =
     StateNotifierProvider((_) => CursorController());
 
 class CursorController extends StateNotifier<CursorState> {
-  CursorController() : super(CursorState());
+  CursorController()
+      : super(
+          CursorState(cursorWeight: 1.0),
+        );
 
   void updateFrame() {
     _updateVirtualPosition();
+    _updateCursorConfiguration();
   }
 
   void updateRealPosition(Offset pos) {
@@ -24,7 +28,7 @@ class CursorController extends StateNotifier<CursorState> {
   }
 
   void exitFromScreen() {
-    state = CursorState.none();
+    state = CursorState(cursorWeight: 1.0);
   }
 
   void _updateVirtualPosition() {
@@ -35,7 +39,7 @@ class CursorController extends StateNotifier<CursorState> {
     final newState = updateCursorState(state);
 
     final modifiedWithTarget =
-        newState.target != null ? updateCursorStateWithTarget(state) : newState;
+        newState.hasFocus ? updateCursorStateWithTarget(state) : newState;
     state = modifiedWithTarget;
   }
 
@@ -45,18 +49,46 @@ class CursorController extends StateNotifier<CursorState> {
         position: position,
         size: size,
       ),
+      hasFocus: true,
     );
   }
 
   void existTarget() {
     state = state.copyWith(
-      target: null,
+      hasFocus: false,
     );
+  }
+
+  void _updateCursorConfiguration() {
+    if (state.hasFocus) {
+      final newCursorWeight = state.cursorWeight + 0.2;
+      if (newCursorWeight < 1.0) {
+        state = state.copyWith(
+          cursorWeight: newCursorWeight,
+        );
+      } else {
+        state = state.copyWith(
+          cursorWeight: 1.0,
+        );
+      }
+      return;
+    } else {
+      final newCursorWeight = state.cursorWeight - 0.2;
+      if (0 < newCursorWeight) {
+        state = state.copyWith(
+          cursorWeight: newCursorWeight,
+        );
+      } else {
+        state = state.copyWith(
+          cursorWeight: 0,
+        );
+      }
+    }
   }
 }
 
 CursorState updateCursorState(CursorState state) {
-  double spring = 0.2;
+  double spring = 0.25;
   double easing = 0.9;
 
   double speedX = 0;

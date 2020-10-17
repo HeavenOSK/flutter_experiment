@@ -14,13 +14,28 @@ Widget positionedCursor() {
       useProvider(cursorControllerProvider.state.select((s) => s.isHidden));
   final pos = useProvider(
       cursorControllerProvider.state.select((s) => s.virtualPosition));
+  final target = useProvider(
+    cursorControllerProvider.state.select((value) => value.target),
+  );
+  final cursorWeight = useProvider(
+    cursorControllerProvider.state.select((value) => value.cursorWeight),
+  );
+
+  final additionalOffset = target == null
+      ? Offset(0, 0)
+      : ((target.size + Offset(0, -8)) * cursorWeight -
+          defaultVirtualCursorSize * cursorWeight);
+  final size = defaultVirtualCursorSize + additionalOffset;
   if (isHidden) {
     return const SizedBox.shrink();
   } else {
     return Positioned(
-      top: pos.dy - VirtualCursor.radius / 2,
-      left: pos.dx - VirtualCursor.radius / 2,
-      child: VirtualCursor(),
+      top: pos.dy - size.height / 2,
+      left: pos.dx - size.width / 2,
+      child: VirtualCursor(
+        size: size,
+        weight: cursorWeight,
+      ),
     );
   }
 }

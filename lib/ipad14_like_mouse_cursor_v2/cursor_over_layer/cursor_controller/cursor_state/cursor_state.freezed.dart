@@ -16,11 +16,15 @@ class _$CursorStateTearOff {
   _CursorState call(
       {@nullable Offset realPosition,
       @nullable Offset virtualPosition,
-      @nullable Target target}) {
+      @required double cursorWeight,
+      @nullable Target target,
+      bool hasFocus = false}) {
     return _CursorState(
       realPosition: realPosition,
       virtualPosition: virtualPosition,
+      cursorWeight: cursorWeight,
       target: target,
+      hasFocus: hasFocus,
     );
   }
 }
@@ -33,8 +37,10 @@ mixin _$CursorState {
   Offset get realPosition;
   @nullable
   Offset get virtualPosition;
+  double get cursorWeight;
   @nullable
   Target get target;
+  bool get hasFocus;
 
   $CursorStateCopyWith<CursorState> get copyWith;
 }
@@ -46,7 +52,9 @@ abstract class $CursorStateCopyWith<$Res> {
   $Res call(
       {@nullable Offset realPosition,
       @nullable Offset virtualPosition,
-      @nullable Target target});
+      double cursorWeight,
+      @nullable Target target,
+      bool hasFocus});
 
   $TargetCopyWith<$Res> get target;
 }
@@ -62,7 +70,9 @@ class _$CursorStateCopyWithImpl<$Res> implements $CursorStateCopyWith<$Res> {
   $Res call({
     Object realPosition = freezed,
     Object virtualPosition = freezed,
+    Object cursorWeight = freezed,
     Object target = freezed,
+    Object hasFocus = freezed,
   }) {
     return _then(_value.copyWith(
       realPosition: realPosition == freezed
@@ -71,7 +81,11 @@ class _$CursorStateCopyWithImpl<$Res> implements $CursorStateCopyWith<$Res> {
       virtualPosition: virtualPosition == freezed
           ? _value.virtualPosition
           : virtualPosition as Offset,
+      cursorWeight: cursorWeight == freezed
+          ? _value.cursorWeight
+          : cursorWeight as double,
       target: target == freezed ? _value.target : target as Target,
+      hasFocus: hasFocus == freezed ? _value.hasFocus : hasFocus as bool,
     ));
   }
 
@@ -95,7 +109,9 @@ abstract class _$CursorStateCopyWith<$Res>
   $Res call(
       {@nullable Offset realPosition,
       @nullable Offset virtualPosition,
-      @nullable Target target});
+      double cursorWeight,
+      @nullable Target target,
+      bool hasFocus});
 
   @override
   $TargetCopyWith<$Res> get target;
@@ -114,7 +130,9 @@ class __$CursorStateCopyWithImpl<$Res> extends _$CursorStateCopyWithImpl<$Res>
   $Res call({
     Object realPosition = freezed,
     Object virtualPosition = freezed,
+    Object cursorWeight = freezed,
     Object target = freezed,
+    Object hasFocus = freezed,
   }) {
     return _then(_CursorState(
       realPosition: realPosition == freezed
@@ -123,7 +141,11 @@ class __$CursorStateCopyWithImpl<$Res> extends _$CursorStateCopyWithImpl<$Res>
       virtualPosition: virtualPosition == freezed
           ? _value.virtualPosition
           : virtualPosition as Offset,
+      cursorWeight: cursorWeight == freezed
+          ? _value.cursorWeight
+          : cursorWeight as double,
       target: target == freezed ? _value.target : target as Target,
+      hasFocus: hasFocus == freezed ? _value.hasFocus : hasFocus as bool,
     ));
   }
 }
@@ -132,7 +154,11 @@ class _$_CursorState implements _CursorState {
   _$_CursorState(
       {@nullable this.realPosition,
       @nullable this.virtualPosition,
-      @nullable this.target});
+      @required this.cursorWeight,
+      @nullable this.target,
+      this.hasFocus = false})
+      : assert(cursorWeight != null),
+        assert(hasFocus != null);
 
   @override
   @nullable
@@ -141,8 +167,13 @@ class _$_CursorState implements _CursorState {
   @nullable
   final Offset virtualPosition;
   @override
+  final double cursorWeight;
+  @override
   @nullable
   final Target target;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool hasFocus;
 
   bool _didisHidden = false;
   bool _isHidden;
@@ -156,21 +187,9 @@ class _$_CursorState implements _CursorState {
     return _isHidden;
   }
 
-  bool _didhasTarget = false;
-  bool _hasTarget;
-
-  @override
-  bool get hasTarget {
-    if (_didhasTarget == false) {
-      _didhasTarget = true;
-      _hasTarget = target != null;
-    }
-    return _hasTarget;
-  }
-
   @override
   String toString() {
-    return 'CursorState(realPosition: $realPosition, virtualPosition: $virtualPosition, target: $target, isHidden: $isHidden, hasTarget: $hasTarget)';
+    return 'CursorState(realPosition: $realPosition, virtualPosition: $virtualPosition, cursorWeight: $cursorWeight, target: $target, hasFocus: $hasFocus, isHidden: $isHidden)';
   }
 
   @override
@@ -183,8 +202,14 @@ class _$_CursorState implements _CursorState {
             (identical(other.virtualPosition, virtualPosition) ||
                 const DeepCollectionEquality()
                     .equals(other.virtualPosition, virtualPosition)) &&
+            (identical(other.cursorWeight, cursorWeight) ||
+                const DeepCollectionEquality()
+                    .equals(other.cursorWeight, cursorWeight)) &&
             (identical(other.target, target) ||
-                const DeepCollectionEquality().equals(other.target, target)));
+                const DeepCollectionEquality().equals(other.target, target)) &&
+            (identical(other.hasFocus, hasFocus) ||
+                const DeepCollectionEquality()
+                    .equals(other.hasFocus, hasFocus)));
   }
 
   @override
@@ -192,7 +217,9 @@ class _$_CursorState implements _CursorState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(realPosition) ^
       const DeepCollectionEquality().hash(virtualPosition) ^
-      const DeepCollectionEquality().hash(target);
+      const DeepCollectionEquality().hash(cursorWeight) ^
+      const DeepCollectionEquality().hash(target) ^
+      const DeepCollectionEquality().hash(hasFocus);
 
   @override
   _$CursorStateCopyWith<_CursorState> get copyWith =>
@@ -203,7 +230,9 @@ abstract class _CursorState implements CursorState {
   factory _CursorState(
       {@nullable Offset realPosition,
       @nullable Offset virtualPosition,
-      @nullable Target target}) = _$_CursorState;
+      @required double cursorWeight,
+      @nullable Target target,
+      bool hasFocus}) = _$_CursorState;
 
   @override
   @nullable
@@ -212,8 +241,12 @@ abstract class _CursorState implements CursorState {
   @nullable
   Offset get virtualPosition;
   @override
+  double get cursorWeight;
+  @override
   @nullable
   Target get target;
+  @override
+  bool get hasFocus;
   @override
   _$CursorStateCopyWith<_CursorState> get copyWith;
 }
